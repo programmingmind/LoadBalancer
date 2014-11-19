@@ -1,0 +1,91 @@
+<html>
+<head>
+  <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+  <script src="http://code.highcharts.com/highcharts.js"></script>
+  <script src="http://code.highcharts.com/modules/exporting.js"></script>
+  <script>
+
+  var xmlHttp = new XMLHttpRequest();
+  xmlHttp.open( "GET", "http://127.0.0.1:5000/data", false );
+  xmlHttp.send( null );
+  data = JSON.parse(xmlHttp.responseText);
+
+   $(function () {
+      Highcharts.setOptions({
+        global : {
+          timezoneOffset : new Date().getTimezoneOffset()
+        }
+      });
+      
+      $('#loadContainer').highcharts({
+         chart: {
+            type: 'spline'
+         },
+
+         title: {
+            text: 'Processor Load'
+         },
+
+         xAxis: {
+            type: 'datetime',
+            title: {
+               text: 'Time'
+            }
+         },
+
+         yAxis: {
+            title: {
+               text: 'Load'
+            },
+            min: 0
+         },
+
+         tooltip: {
+            headerFormat: '<b>{series.name}</b><br>',
+            pointFormat: '{point.x:%I:%M %p}: {point.y:.2f}'
+         },
+
+         series: data.map(function(pt) {return {name: pt.name, data: pt.data.map(function(d) {return [d[0], d[1]];})};})
+      });
+
+      $('#utilizationContainer').highcharts({
+         chart: {
+            type: 'spline'
+         },
+
+         title: {
+            text: 'Processor Utilization'
+         },
+
+         xAxis: {
+            type: 'datetime',
+            title: {
+               text: 'Time'
+            }
+         },
+
+         yAxis: {
+            title: {
+               text: 'Utilization'
+            },
+            min: 0
+         },
+
+         tooltip: {
+            headerFormat: '<b>{series.name}</b><br>',
+            pointFormat: '{point.x:%I:%M %p}: {point.y:.2f}'
+         },
+
+         series: data.map(function(pt) {return {name: pt.name, data: pt.data.map(function(d) {return [d[0], d[2]];})};})
+      });
+   });
+
+   </script>
+</head>
+
+<body>
+   <div id="loadContainer" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+   <div id="utilizationContainer" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+</body>
+
+</html>
