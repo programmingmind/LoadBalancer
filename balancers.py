@@ -61,7 +61,7 @@ class PredictiveBalancer(Balancer):
             self.load[ndx] = max(0.0, self.load[ndx] - (cur - self.time) * self.capacities[ndx])
          self.time = cur
       ndx = index_min(self.load)
-      self.load[ndx] += this.averager.getAverage(path)
+      self.load[ndx] += self.averager.getAverage(path)
       return ndx
 
    def addActualRequestLoad(self, request):
