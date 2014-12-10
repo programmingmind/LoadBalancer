@@ -17,6 +17,24 @@
   xmlHttp.send( null );
   data = JSON.parse(xmlHttp.responseText);
 
+  var maxLen = 0;
+  data.map(function(series) {
+    maxLen = Math.max(maxLen, series.data.length);
+  });
+  var toSkip = Math.floor(maxLen / 10000)
+
+  var smallData = data.map(function(series) {
+    var d = []
+    for (var i = 0; i  < series.data.length; i++) {
+      if ((i % toSkip) == 0) {
+        d.push(series.data[i]);
+      }
+    }
+    return {name : series.name, data : d};
+  });
+
+  var toUse = maxLen > 10000 ? smallData : data;
+
    $(function () {
       Highcharts.setOptions({
         global : {
@@ -52,7 +70,7 @@
             pointFormat: '{point.x:%I:%M %p}: {point.y:.2f}'
          },
 
-         series: data.map(function(pt) {return {name: pt.name, data: pt.data.map(function(d) {return [d[0], d[1]];})};})
+         series: toUse.map(function(pt) {return {name: pt.name, data: pt.data.map(function(d) {return [d[0], d[1]];})};})
       });
 
       $('#utilizationContainer').highcharts({
@@ -83,7 +101,7 @@
             pointFormat: '{point.x:%I:%M %p}: {point.y:.2f}'
          },
 
-         series: data.map(function(pt) {return {name: pt.name, data: pt.data.map(function(d) {return [d[0], d[2]];})};})
+         series: toUse.map(function(pt) {return {name: pt.name, data: pt.data.map(function(d) {return [d[0], d[2]];})};})
       });
 
       $('#imbalanceContainer').highcharts({
@@ -114,7 +132,7 @@
             pointFormat: '{point.x:%I:%M %p}: {point.y:.2f}'
          },
 
-         series: data.map(function(pt) {return {name: pt.name, data: pt.data.map(function(d) {return [d[0], d[3]];})};})
+         series: toUse.map(function(pt) {return {name: pt.name, data: pt.data.map(function(d) {return [d[0], d[3]];})};})
       });
    });
 
