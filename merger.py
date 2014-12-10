@@ -7,7 +7,7 @@ for fileName in glob.glob("*.log"):
       data = []
       for line in f:
          vals = line.split("\t")
-         data.append([int(1000 * float(vals[0])), float(vals[1]), float(vals[2])])
+         data.append([float(vals[0]), float(vals[1]), float(vals[2])])
 
       if len(data) > longest:
          longest = len(data)
