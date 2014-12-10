@@ -45,7 +45,7 @@ def get_cmp_data(path):
             for line in f:
                 vals = line.split("\t")
                 data.append([int(1000 * float(vals[0])), float(vals[1]), float(vals[2]), float(vals[3])])
-            series.append(dict(name=os.path.splitext(fileName)[0],data=data))
+            series.append(dict(name=os.path.splitext(os.path.basename(fileName))[0],data=data))
 
     return Response(json.dumps(series), mimetype='application/json')
 
