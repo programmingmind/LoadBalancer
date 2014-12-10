@@ -20,8 +20,10 @@ for ndx in xrange(longest):
    sum1 = 0
    sum2 = 0
    mx2 = 0
+   t = 0
    for p in sets:
       if ndx < len(p):
+         t = p[ndx][0]
          sum1 += p[ndx][1]
          sum2 += p[ndx][2]
          if p[ndx][2] > mx2:
@@ -39,7 +41,7 @@ for ndx in xrange(longest):
          ss1 += (0 - m1)**2
          ss2 += (0 - m2)**2
 
-   f.write("{}\t{}\t{}\t{}\n".format(ndx, ss1, ss2, mx2/m2 - 1.0))
+   f.write("{}\t{}\t{}\t{}\n".format(t, ss1, ss2, mx2/m2 - 1.0))
 
 f.close()
    
