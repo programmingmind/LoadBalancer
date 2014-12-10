@@ -36,8 +36,8 @@ for ndx in xrange(longest):
          ss1 += (p[ndx][1] - m1)**2
          ss2 += (p[ndx][2] - m2)**2
       else:
-         ss1 += (p[ndx][1] - 0)**2
-         ss2 += (p[ndx][2] - 0)**2
+         ss1 += (0 - m1)**2
+         ss2 += (0 - m2)**2
 
    f.write("{}\t{}\t{}\t{}\n".format(ndx, ss1, ss2, mx2/m2 - 1.0))
 
